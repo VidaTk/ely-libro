@@ -1213,5 +1213,212 @@
         });
     </script>
 
+    <!-- MODAL CHECKOUT -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarCheckout()">✕</button>
+            <h2>Completar Compra</h2>
+
+            <div style="background: #F5F5F5; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                    <span>Libros ($250 × <span id="modalQtyMultiply">1</span>)</span>
+                    <strong>$<span id="modalSubtotal">250</span>.00 MXN</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #DDD;">
+                    <span>Envío</span>
+                    <strong>$<span id="modalEnvio">90</span>.00 MXN</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #B12704;">
+                    <span>Total:</span>
+                    <span>$<span id="modalTotal">340</span>.00 MXN</span>
+                </div>
+            </div>
+
+            <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border-left: 3px solid #FF9900;">
+                <div style="font-weight: 600; color: #111;">📦 Envío</div>
+                <div style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">
+                    CDMX: $90 | Otros estados: $120-$200<br>
+                    <strong style="color: #27AE60;">Se confirmará según tu código postal</strong>
+                </div>
+            </div>
+
+            <form class="checkout-form" id="paymentForm">
+                <div class="form-group">
+                    <label for="name">Nombre Completo *</label>
+                    <input type="text" id="name" name="name" required placeholder="Tu nombre">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico *</label>
+                    <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Teléfono/WhatsApp *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="55 XXXX XXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Dirección de Entrega *</label>
+                    <input type="text" id="address" name="address" required placeholder="Calle, número, apto">
+                </div>
+
+                <div class="form-group">
+                    <label for="zipcode">Código Postal *</label>
+                    <input type="text" id="zipcode" name="zipcode" required placeholder="06170">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Ciudad/Estado *</label>
+                    <input type="text" id="city" name="city" required placeholder="CDMX, Monterrey, etc">
+                </div>
+
+                <input type="hidden" id="quantity" name="quantity" value="1">
+
+                <div id="mercadopagoCheckout" style="margin: 1.5rem 0;"></div>
+
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%; margin-top: 1rem;">
+                    Procesar Pago Seguro
+                </button>
+            </form>
+
+            <p style="font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem;">
+                💳 Pago procesado de forma segura por MercadoPago
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // TODO: Reemplaza con tu PUBLIC KEY de MercadoPago
+        const MERCADOPAGO_PUBLIC_KEY = "APP_USR-tu-public-key-aqui";
+        const PRECIO_LIBRO = 250;
+        const ENVIO_CDMX = 90;
+        const ENVIO_OTROS = 120;
+
+        function calcularEnvio() {
+            const city = document.getElementById('city').value.toLowerCase().trim();
+            
+            if (city === 'cdmx' || city === 'ciudad de méxico' || city === 'méxico' || city === 'mexico') {
+                return ENVIO_CDMX;
+            } else {
+                return ENVIO_OTROS;
+            }
+        }
+
+        function actualizarTotal() {
+            const qty = document.getElementById('quantity').value;
+            const envio = calcularEnvio();
+            const subtotal = qty * PRECIO_LIBRO;
+            const total = subtotal + envio;
+            
+            document.getElementById('modalQtyMultiply').textContent = qty;
+            document.getElementById('modalTotal').textContent = total;
+            document.getElementById('modalSubtotal').textContent = subtotal;
+            document.getElementById('modalEnvio').textContent = envio;
+        }
+
+        function abrirCheckout() {
+            const qty = document.getElementById('quantity').value;
+            document.getElementById('quantity').value = qty;
+            actualizarTotal();
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function cerrarCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function contactarWhatsapp() {
+            const mensaje = encodeURIComponent('Hola Ely, tengo una pregunta sobre tu libro. ¿Puedo consultarte?');
+            window.open(`https://wa.me/5515855849?text=${mensaje}`, '_blank');
+        }
+
+        function toggleFAQ(element) {
+            const parent = element.parentElement;
+            parent.classList.toggle('active');
+        }
+
+        document.getElementById('checkoutModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarCheckout();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cityInput = document.getElementById('city');
+            if (cityInput) {
+                cityInput.addEventListener('change', actualizarTotal);
+                cityInput.addEventListener('blur', actualizarTotal);
+                cityInput.addEventListener('keyup', actualizarTotal);
+            }
+
+            if (MERCADOPAGO_PUBLIC_KEY && MERCADOPAGO_PUBLIC_KEY !== "APP_USR-tu-public-key-aqui") {
+                const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
+                
+                const bricksBuilder = mp.bricks();
+                bricksBuilder.create("payment", {
+                    initialization: {
+                        amount: 250
+                    },
+                    callbacks: {
+                        onReady: () => console.log('Payment Brick ready'),
+                        onSubmit: async (formData) => {
+                            console.log('Pago enviado:', formData);
+                        },
+                        onError: (error) => {
+                            console.error('Error en pago:', error);
+                            alert('Hubo un error. Por favor intenta de nuevo.');
+                        }
+                    }
+                }).then(() => {
+                    // Brick cargado
+                }).catch((error) => {
+                    console.error('Error cargando Brick:', error);
+                });
+            }
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const datos = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                zipcode: document.getElementById('zipcode').value,
+                city: document.getElementById('city').value,
+                quantity: document.getElementById('quantity').value,
+                envio: calcularEnvio()
+            };
+            
+            if (!datos.name || !datos.email || !datos.phone || !datos.address || !datos.zipcode || !datos.city) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+            
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/TU_CODIGO_AQUI/usercopy";
+            
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ ¡Compra registrada!\n\nRecibiras confirmación por WhatsApp en breve.');
+                    cerrarCheckout();
+                    document.getElementById('paymentForm').reset();
+                } else {
+                    alert('❌ Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al procesar la compra. Intenta de nuevo.');
+            });
+        });
+    </script>
+
 </body>
 </html>
