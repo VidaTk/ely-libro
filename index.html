@@ -1025,13 +1025,13 @@
         </div>
     </footer>
 
-    <!-- MODAL PASO 1: DATOS DE ENVÍO -->
+   <!-- MODAL PASO 1: DATOS DE ENVÍO -->
     <div class="modal" id="shippingModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarShipping()">✕</button>
             <h2>Calcular Envío</h2>
             
-            <p style="color: #555; margin-bottom: 1.5rem;">Ingresa tu código postal y ciudad para calcular el costo de envío.</p>
+            <p style="color: #B12704; font-weight: 600; margin-bottom: 1.5rem; font-size: 1rem;">⚠️ INGRESA TU CIUDAD Y CÓDIGO POSTAL</p>
 
             <div class="form-group">
                 <label for="shippingZipcode">Código Postal *</label>
@@ -1040,16 +1040,17 @@
 
             <div class="form-group">
                 <label for="shippingCity">Ciudad/Estado *</label>
-                <input type="text" id="shippingCity" required placeholder="CDMX, Monterrey, etc">
+                <input type="text" id="shippingCity" required placeholder="CDMX, Monterrey, etc" onkeyup="actualizarEnvioEnTiempoReal()">
             </div>
 
-            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1.5rem 0; display: none;">
+            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1.5rem 0;">
                 <div style="font-size: 0.9rem; color: #555; margin-bottom: 0.5rem;">Costo de envío:</div>
-                <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">90</span>.00 MXN</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">120</span>.00 MXN</div>
+                <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;" id="shippingNote">Por defecto $120. Baja a $90 si es CDMX.</div>
             </div>
 
             <button type="button" class="btn btn-primary btn-large" onclick="calcularYConfirmarEnvio()" style="width: 100%;">
-                Calcular Envío
+                Confirmar Envío
             </button>
 
             <button type="button" class="btn btn-secondary btn-large" onclick="cerrarShipping()" style="width: 100%; margin-top: 0.5rem;">
@@ -1071,11 +1072,11 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #DDD;">
                     <span>Envío</span>
-                    <strong>$<span id="modalEnvio">90</span>.00 MXN</strong>
+                    <strong>$<span id="modalEnvio">120</span>.00 MXN</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #B12704;">
                     <span>Total:</span>
-                    <span>$<span id="modalTotal">340</span>.00 MXN</span>
+                    <span>$<span id="modalTotal">370</span>.00 MXN</span>
                 </div>
             </div>
 
@@ -1111,7 +1112,7 @@
                 <input type="hidden" id="quantity" name="quantity" value="1">
                 <input type="hidden" id="shippingZipcodeHidden" value="">
                 <input type="hidden" id="shippingCityHidden" value="">
-                <input type="hidden" id="shippingCostHidden" value="90">
+                <input type="hidden" id="shippingCostHidden" value="120">
 
                 <div id="mercadopagoCheckout" style="margin: 1.5rem 0;"></div>
 
@@ -1143,7 +1144,30 @@
             }
         }
 
+        function actualizarEnvioEnTiempoReal() {
+            const envio = calcularEnvio();
+            const city = document.getElementById('shippingCity').value.toLowerCase().trim();
+            
+            document.getElementById('shippingCost').textContent = envio;
+            
+            if (city === 'cdmx' || city === 'ciudad de méxico' || city === 'méxico' || city === 'mexico') {
+                document.getElementById('shippingNote').textContent = "✓ ¡CDMX detectado! Envío $90";
+                document.getElementById('shippingNote').style.color = '#27AE60';
+            } else if (city.length > 0) {
+                document.getElementById('shippingNote').textContent = "Envío a otra ciudad: $120";
+                document.getElementById('shippingNote').style.color = '#FF9900';
+            } else {
+                document.getElementById('shippingNote').textContent = "Por defecto $120. Baja a $90 si es CDMX.";
+                document.getElementById('shippingNote').style.color = '#999';
+            }
+        }
+
         function abrirShipping() {
+            document.getElementById('shippingZipcode').value = '';
+            document.getElementById('shippingCity').value = '';
+            document.getElementById('shippingCost').textContent = '120';
+            document.getElementById('shippingNote').textContent = 'Por defecto $120. Baja a $90 si es CDMX.';
+            document.getElementById('shippingNote').style.color = '#999';
             document.getElementById('shippingModal').classList.add('active');
         }
 
@@ -1161,19 +1185,17 @@
             }
 
             const envio = calcularEnvio();
-            document.getElementById('shippingCost').textContent = envio;
-            document.getElementById('shippingResult').style.display = 'block';
 
             // Guardar datos para el siguiente paso
             document.getElementById('shippingZipcodeHidden').value = zipcode;
             document.getElementById('shippingCityHidden').value = city;
             document.getElementById('shippingCostHidden').value = envio;
 
-            // Esperar 1 segundo y abrir checkout
+            // Esperar 500ms y abrir checkout
             setTimeout(() => {
                 cerrarShipping();
                 abrirCheckout();
-            }, 800);
+            }, 500);
         }
 
         function volverAEnvio() {
