@@ -7,7 +7,7 @@
     <meta name="description" content="No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor — Libro de Ely González. Compra ahora.">
     <meta name="theme-color" content="#232F3E">
 
-<link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     
     <!-- MercadoPago SDK -->
     <script src="https://sdk.mercadopago.com/js/v2"></script>
@@ -778,7 +778,7 @@
 
                 <!-- BOTONES -->
                 <div class="button-section">
-                    <button class="btn btn-primary btn-large" onclick="abrirCheckout()">
+                    <button class="btn btn-primary btn-large" onclick="abrirShipping()">
                         Comprar ahora
                     </button>
                     <button class="btn btn-secondary btn-large" onclick="contactarWhatsapp()">
@@ -986,7 +986,7 @@
             <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                 <a href="https://www.instagram.com" target="_blank" class="btn btn-secondary">Seguir en Instagram</a>
                 <a href="https://wa.me/5515855849" target="_blank" class="btn btn-secondary">WhatsApp</a>
-                <a href="https://speakers.vidabiz.app/speakers/ely-gonzalez" target="_blank" class="btn btn-secondary">Micrositio</a>
+                <a href="https://speakers.vidabiz.app/speakers/ely-gonzalez" target="_blank" class="btn btn-secondary">Página Web de Ely González</a>
             </div>
         </div>
     </div>
@@ -1010,7 +1010,7 @@
                 <h4>Contacto</h4>
                 <a href="https://wa.me/5515855849" target="_blank">WhatsApp</a>
                 <a href="https://www.instagram.com" target="_blank">Instagram</a>
-                <a href="https://speakers.vidabiz.app/speakers/ely-gonzalez" target="_blank">Micrositio</a>
+                <a href="https://speakers.vidabiz.app/speakers/ely-gonzalez" target="_blank">Página Web de Ely González</a>
             </div>
             <div class="footer-col">
                 <h4>Legal</h4>
@@ -1025,71 +1025,60 @@
         </div>
     </footer>
 
-   <!-- MODAL PASO 1: DATOS DE ENVÍO -->
+   <!-- MODAL PASO 1: SELECCIONAR ESTADO Y CALCULAR ENVÍO -->
     <div class="modal" id="shippingModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarShipping()">✕</button>
-            <h2>Calcular Envío</h2>
+            <h2>Selecciona tu Estado</h2>
             
-            <p style="color: #B12704; font-weight: 600; margin-bottom: 1.5rem; font-size: 1rem;">⚠️ INGRESA TU CIUDAD Y CÓDIGO POSTAL</p>
+            <p style="color: #666; font-size: 0.95rem; margin-bottom: 1.5rem;">Primero necesitamos tu estado para calcular el costo de envío.</p>
 
-<div class="form-group">
-                    <label for="state">Estado *</label>
-                    <select id="state" name="state" required>
-                        <option value="">-- Selecciona tu Estado --</option>
-                        <option value="Aguascalientes">Aguascalientes</option>
-                        <option value="Baja California">Baja California</option>
-                        <option value="Baja California Sur">Baja California Sur</option>
-                        <option value="Campeche">Campeche</option>
-                        <option value="Chiapas">Chiapas</option>
-                        <option value="Chihuahua">Chihuahua</option>
-                        <option value="Coahuila">Coahuila</option>
-                        <option value="Colima">Colima</option>
-                        <option value="Ciudad de México">Ciudad de México</option>
-                        <option value="Durango">Durango</option>
-                        <option value="Estado de México">Estado de México</option>
-                        <option value="Guanajuato">Guanajuato</option>
-                        <option value="Guerrero">Guerrero</option>
-                        <option value="Hidalgo">Hidalgo</option>
-                        <option value="Jalisco">Jalisco</option>
-                        <option value="Michoacán">Michoacán</option>
-                        <option value="Morelos">Morelos</option>
-                        <option value="Nayarit">Nayarit</option>
-                        <option value="Nuevo León">Nuevo León</option>
-                        <option value="Oaxaca">Oaxaca</option>
-                        <option value="Puebla">Puebla</option>
-                        <option value="Querétaro">Querétaro</option>
-                        <option value="Quintana Roo">Quintana Roo</option>
-                        <option value="San Luis Potosí">San Luis Potosí</option>
-                        <option value="Sinaloa">Sinaloa</option>
-                        <option value="Sonora">Sonora</option>
-                        <option value="Tabasco">Tabasco</option>
-                        <option value="Tamaulipas">Tamaulipas</option>
-                        <option value="Tlaxcala">Tlaxcala</option>
-                        <option value="Veracruz">Veracruz</option>
-                        <option value="Yucatán">Yucatán</option>
-                        <option value="Zacatecas">Zacatecas</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="zipcode">Código Postal *</label>
-                    <input type="text" id="zipcode" name="zipcode" required placeholder="06170">
-                </div>
-
-                <div class="form-group">
-                    <label for="city">Ciudad *</label>
-                    <input type="text" id="city" name="city" required placeholder="CDMX, Monterrey, etc">
-                </div>
-
-            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1.5rem 0;">
-                <div style="font-size: 0.9rem; color: #555; margin-bottom: 0.5rem;">Costo de envío:</div>
-                <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">120</span>.00 MXN</div>
-                <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;" id="shippingNote">Por defecto $120. Baja a $90 si es CDMX.</div>
+            <div class="form-group">
+                <label for="state">Estado *</label>
+                <select id="state" name="state" required>
+                    <option value="">-- Selecciona tu Estado --</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Ciudad de México">Ciudad de México</option>
+                    <option value="Durango">Durango</option>
+                    <option value="Estado de México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>
+                </select>
             </div>
 
-            <button type="button" class="btn btn-primary btn-large" onclick="calcularYConfirmarEnvio()" style="width: 100%;">
-                Confirmar Envío
+            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1.5rem 0; display: none;">
+                <div style="font-size: 0.9rem; color: #555; margin-bottom: 0.5rem;">Costo de envío:</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">120</span>.00 MXN</div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-large" onclick="confirmarEstadoYCalcular()" style="width: 100%;">
+                Continuar
             </button>
 
             <button type="button" class="btn btn-secondary btn-large" onclick="cerrarShipping()" style="width: 100%; margin-top: 0.5rem;">
@@ -1122,8 +1111,9 @@
             <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border-left: 3px solid #FF9900;">
                 <div style="font-weight: 600; color: #111;">📦 Envío a:</div>
                 <div style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">
-                    <strong id="confirmCity">CDMX</strong>, CP <strong id="confirmZipcode">06170</strong><br>
-                    <a href="#" onclick="volverAEnvio()" style="color: #0066C0; text-decoration: none;">Cambiar dirección de envío</a>
+                    <strong id="confirmState">--</strong><br>
+                    CP <strong id="confirmZipcode">--</strong>, <strong id="confirmCity">--</strong><br>
+                    <a href="#" onclick="volverASeleccionar()" style="color: #0066C0; text-decoration: none;">Cambiar estado</a>
                 </div>
             </div>
 
@@ -1148,9 +1138,18 @@
                     <input type="text" id="address" name="address" required placeholder="Calle, número exterior, número interior">
                 </div>
 
+                <div class="form-group">
+                    <label for="zipcode">Código Postal *</label>
+                    <input type="text" id="zipcode" name="zipcode" required placeholder="06170">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Ciudad *</label>
+                    <input type="text" id="city" name="city" required placeholder="CDMX, Monterrey, etc">
+                </div>
+
                 <input type="hidden" id="quantity" name="quantity" value="1">
-                <input type="hidden" id="shippingZipcodeHidden" value="">
-                <input type="hidden" id="shippingCityHidden" value="">
+                <input type="hidden" id="stateHidden" value="">
                 <input type="hidden" id="shippingCostHidden" value="120">
 
                 <div id="mercadopagoCheckout" style="margin: 1.5rem 0;"></div>
@@ -1173,9 +1172,7 @@
         const ENVIO_CDMX = 90;
         const ENVIO_OTROS = 120;
 
-function calcularEnvio() {
-            const state = document.getElementById('state').value;
-            
+        function calcularEnvio(state) {
             if (state === 'Ciudad de México') {
                 return ENVIO_CDMX;
             } else if (state !== '') {
@@ -1185,30 +1182,9 @@ function calcularEnvio() {
             }
         }
 
-        function actualizarEnvioEnTiempoReal() {
-            const envio = calcularEnvio();
-            const city = document.getElementById('shippingCity').value.toLowerCase().trim();
-            
-            document.getElementById('shippingCost').textContent = envio;
-            
-            if (city === 'cdmx' || city === 'ciudad de méxico' || city === 'méxico' || city === 'mexico') {
-                document.getElementById('shippingNote').textContent = "✓ ¡CDMX detectado! Envío $90";
-                document.getElementById('shippingNote').style.color = '#27AE60';
-            } else if (city.length > 0) {
-                document.getElementById('shippingNote').textContent = "Envío a otra ciudad: $120";
-                document.getElementById('shippingNote').style.color = '#FF9900';
-            } else {
-                document.getElementById('shippingNote').textContent = "Por defecto $120. Baja a $90 si es CDMX.";
-                document.getElementById('shippingNote').style.color = '#999';
-            }
-        }
-
         function abrirShipping() {
-            document.getElementById('shippingZipcode').value = '';
-            document.getElementById('shippingCity').value = '';
-            document.getElementById('shippingCost').textContent = '120';
-            document.getElementById('shippingNote').textContent = 'Por defecto $120. Baja a $90 si es CDMX.';
-            document.getElementById('shippingNote').style.color = '#999';
+            document.getElementById('state').value = '';
+            document.getElementById('shippingResult').style.display = 'none';
             document.getElementById('shippingModal').classList.add('active');
         }
 
@@ -1216,20 +1192,22 @@ function calcularEnvio() {
             document.getElementById('shippingModal').classList.remove('active');
         }
 
-        function calcularYConfirmarEnvio() {
-            const zipcode = document.getElementById('shippingZipcode').value.trim();
-            const city = document.getElementById('shippingCity').value.trim();
+        function confirmarEstadoYCalcular() {
+            const state = document.getElementById('state').value;
 
-            if (!zipcode || !city) {
-                alert('Por favor completa código postal y ciudad');
+            if (!state) {
+                alert('Por favor selecciona tu estado');
                 return;
             }
 
-            const envio = calcularEnvio();
+            const envio = calcularEnvio(state);
+            
+            // Mostrar resultado de envío
+            document.getElementById('shippingCost').textContent = envio;
+            document.getElementById('shippingResult').style.display = 'block';
 
-            // Guardar datos para el siguiente paso
-            document.getElementById('shippingZipcodeHidden').value = zipcode;
-            document.getElementById('shippingCityHidden').value = city;
+            // Guardar para siguiente paso
+            document.getElementById('stateHidden').value = state;
             document.getElementById('shippingCostHidden').value = envio;
 
             // Esperar 500ms y abrir checkout
@@ -1239,7 +1217,7 @@ function calcularEnvio() {
             }, 500);
         }
 
-        function volverAEnvio() {
+        function volverASeleccionar() {
             cerrarCheckout();
             abrirShipping();
         }
@@ -1255,10 +1233,8 @@ function calcularEnvio() {
             document.getElementById('modalEnvio').textContent = envio;
             document.getElementById('modalTotal').textContent = total;
 
-            const zipcode = document.getElementById('shippingZipcodeHidden').value;
-            const city = document.getElementById('shippingCityHidden').value;
-            document.getElementById('confirmZipcode').textContent = zipcode;
-            document.getElementById('confirmCity').textContent = city;
+            const state = document.getElementById('stateHidden').value;
+            document.getElementById('confirmState').textContent = state;
         }
 
         function abrirCheckout() {
@@ -1324,20 +1300,23 @@ function calcularEnvio() {
         document.getElementById('paymentForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
+            const state = document.getElementById('stateHidden').value;
+            const envio = calcularEnvio(state);
+
             const datos = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value,
-                state: document.getElementById('state').value,
+                state: state,
                 zipcode: document.getElementById('zipcode').value,
                 city: document.getElementById('city').value,
                 quantity: document.getElementById('quantity').value,
-                envio: calcularEnvio()
+                envio: envio
             };
             
             // Validar que todos los campos estén llenos
-            if (!datos.name || !datos.email || !datos.phone || !datos.address || !datos.state || !datos.zipcode || !datos.city) {
+            if (!datos.name || !datos.email || !datos.phone || !datos.address || !datos.zipcode || !datos.city) {
                 alert('Por favor completa todos los campos');
                 return;
             }
