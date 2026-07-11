@@ -1025,195 +1025,40 @@
         </div>
     </footer>
 
-    <!-- MODAL CHECKOUT -->
-    <div class="modal" id="checkoutModal">
+    <!-- MODAL PASO 1: DATOS DE ENVÍO -->
+    <div class="modal" id="shippingModal">
         <div class="modal-content">
-            <button class="modal-close" onclick="cerrarCheckout()">✕</button>
-            <h2>Completar Compra</h2>
+            <button class="modal-close" onclick="cerrarShipping()">✕</button>
+            <h2>Calcular Envío</h2>
+            
+            <p style="color: #555; margin-bottom: 1.5rem;">Ingresa tu código postal y ciudad para calcular el costo de envío.</p>
 
-            <div style="background: #F5F5F5; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span>No Estás Rota, Estás en Duelo</span>
-                    <strong>$250.00 MXN × <span id="modalQtyMultiply">1</span></strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #B12704; margin-top: 1rem;">
-                    <span>Total:</span>
-                    <span>$<span id="modalTotal">250</span>.00 MXN</span>
-                </div>
+            <div class="form-group">
+                <label for="shippingZipcode">Código Postal *</label>
+                <input type="text" id="shippingZipcode" required placeholder="06170">
             </div>
 
-            <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border-left: 3px solid #FF9900;">
-                <div style="font-weight: 600; color: #111;">📦 Envío</div>
-                <div style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">
-                    CDMX: $90 | Otros estados: $120-$200<br>
-                    <strong style="color: #27AE60;">Se confirmará según tu código postal</strong>
-                </div>
+            <div class="form-group">
+                <label for="shippingCity">Ciudad/Estado *</label>
+                <input type="text" id="shippingCity" required placeholder="CDMX, Monterrey, etc">
             </div>
 
-            <form class="checkout-form" id="paymentForm">
-                <div class="form-group">
-                    <label for="name">Nombre Completo *</label>
-                    <input type="text" id="name" name="name" required placeholder="Tu nombre">
-                </div>
+            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1.5rem 0; display: none;">
+                <div style="font-size: 0.9rem; color: #555; margin-bottom: 0.5rem;">Costo de envío:</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">90</span>.00 MXN</div>
+            </div>
 
-                <div class="form-group">
-                    <label for="email">Correo Electrónico *</label>
-                    <input type="email" id="email" name="email" required placeholder="tu@email.com">
-                </div>
+            <button type="button" class="btn btn-primary btn-large" onclick="calcularYConfirmarEnvio()" style="width: 100%;">
+                Calcular Envío
+            </button>
 
-                <div class="form-group">
-                    <label for="phone">Teléfono/WhatsApp *</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="55 XXXX XXXX">
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Dirección de Entrega *</label>
-                    <input type="text" id="address" name="address" required placeholder="Calle, número, apto">
-                </div>
-
-                <div class="form-group">
-                    <label for="zipcode">Código Postal *</label>
-                    <input type="text" id="zipcode" name="zipcode" required placeholder="06170">
-                </div>
-
-                <div class="form-group">
-                    <label for="city">Ciudad/Estado *</label>
-                    <input type="text" id="city" name="city" required placeholder="CDMX, Monterrey, etc">
-                </div>
-
-                <input type="hidden" id="quantity" name="quantity" value="1">
-
-                <div id="mercadopagoCheckout" style="margin: 1.5rem 0;"></div>
-
-                <button type="submit" class="btn btn-primary btn-large" style="width: 100%; margin-top: 1rem;">
-                    Procesar Pago Seguro
-                </button>
-            </form>
-
-            <p style="font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem;">
-                💳 Pago procesado de forma segura por MercadoPago
-            </p>
+            <button type="button" class="btn btn-secondary btn-large" onclick="cerrarShipping()" style="width: 100%; margin-top: 0.5rem;">
+                Cancelar
+            </button>
         </div>
     </div>
 
-    <script>
-        // TODO: Reemplaza con tu PUBLIC KEY de MercadoPago
-        const MERCADOPAGO_PUBLIC_KEY = "APP_USR-tu-public-key-aqui";
-
-        function abrirCheckout() {
-            const qty = document.getElementById('quantity').value;
-            const total = qty * 250;
-            
-            // Mostrar cantidad multiplicada
-            document.getElementById('modalQtyMultiply').textContent = qty;
-            document.getElementById('modalTotal').textContent = total;
-            
-            // Pasar la cantidad al formulario oculto
-            document.getElementById('quantity').value = qty;
-            document.getElementById('checkoutModal').classList.add('active');
-        }
-
-        function cerrarCheckout() {
-            document.getElementById('checkoutModal').classList.remove('active');
-        }
-
-        function contactarWhatsapp() {
-            const mensaje = encodeURIComponent('Hola Ely, tengo una pregunta sobre tu libro. ¿Puedo consultarte?');
-            window.open(`https://wa.me/5515855849?text=${mensaje}`, '_blank');
-        }
-
-        function toggleFAQ(element) {
-            const parent = element.parentElement;
-            parent.classList.toggle('active');
-        }
-
-        // Cerrar modal si clickean fuera
-        document.getElementById('checkoutModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                cerrarCheckout();
-            }
-        });
-
-        // Inicializar MercadoPago
-        document.addEventListener('DOMContentLoaded', function() {
-            if (MERCADOPAGO_PUBLIC_KEY && MERCADOPAGO_PUBLIC_KEY !== "APP_USR-tu-public-key-aqui") {
-                const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
-                
-                const bricksBuilder = mp.bricks();
-                bricksBuilder.create("payment", {
-                    initialization: {
-                        amount: 250
-                    },
-                    callbacks: {
-                        onReady: () => console.log('Payment Brick ready'),
-                        onSubmit: async (formData) => {
-                            console.log('Pago enviado:', formData);
-                        },
-                        onError: (error) => {
-                            console.error('Error en pago:', error);
-                            alert('Hubo un error. Por favor intenta de nuevo.');
-                        }
-                    }
-                }).then(() => {
-                    // Brick cargado
-                }).catch((error) => {
-                    console.error('Error cargando Brick:', error);
-                });
-            }
-        });
-
-        // Fallback: si no hay PUBLIC_KEY configurada
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Recopilar datos del formulario
-            const datos = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                zipcode: document.getElementById('zipcode').value,
-                city: document.getElementById('city').value,
-                quantity: document.getElementById('quantity').value
-            };
-            
-            // Validar que todos los campos estén llenos
-            if (!datos.name || !datos.email || !datos.phone || !datos.address || !datos.zipcode || !datos.city) {
-                alert('Por favor completa todos los campos');
-                return;
-            }
-            
-            // URL del Apps Script (CAMBIAR ESTO)
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1234567890abcdefghijk/usercopy";;
-            
-            // Enviar datos al Google Sheet
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(datos)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Mostrar mensaje de éxito
-                    alert('✅ ¡Compra registrada!\n\nRecibiras confirmación por WhatsApp en breve.');
-                    
-                    // Cerrar modal
-                    cerrarCheckout();
-                    
-                    // Limpiar formulario
-                    document.getElementById('paymentForm').reset();
-                } else {
-                    alert('❌ Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al procesar la compra. Intenta de nuevo.');
-            });
-        });
-    </script>
-
-    <!-- MODAL CHECKOUT -->
+    <!-- MODAL PASO 2: CHECKOUT COMPLETO -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarCheckout()">✕</button>
@@ -1235,10 +1080,10 @@
             </div>
 
             <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border-left: 3px solid #FF9900;">
-                <div style="font-weight: 600; color: #111;">📦 Envío</div>
+                <div style="font-weight: 600; color: #111;">📦 Envío a:</div>
                 <div style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">
-                    CDMX: $90 | Otros estados: $120-$200<br>
-                    <strong style="color: #27AE60;">Se confirmará según tu código postal</strong>
+                    <strong id="confirmCity">CDMX</strong>, CP <strong id="confirmZipcode">06170</strong><br>
+                    <a href="#" onclick="volverAEnvio()" style="color: #0066C0; text-decoration: none;">Cambiar dirección de envío</a>
                 </div>
             </div>
 
@@ -1263,17 +1108,10 @@
                     <input type="text" id="address" name="address" required placeholder="Calle, número, apto">
                 </div>
 
-                <div class="form-group">
-                    <label for="zipcode">Código Postal *</label>
-                    <input type="text" id="zipcode" name="zipcode" required placeholder="06170">
-                </div>
-
-                <div class="form-group">
-                    <label for="city">Ciudad/Estado *</label>
-                    <input type="text" id="city" name="city" required placeholder="CDMX, Monterrey, etc">
-                </div>
-
                 <input type="hidden" id="quantity" name="quantity" value="1">
+                <input type="hidden" id="shippingZipcodeHidden" value="">
+                <input type="hidden" id="shippingCityHidden" value="">
+                <input type="hidden" id="shippingCostHidden" value="90">
 
                 <div id="mercadopagoCheckout" style="margin: 1.5rem 0;"></div>
 
@@ -1296,7 +1134,7 @@
         const ENVIO_OTROS = 120;
 
         function calcularEnvio() {
-            const city = document.getElementById('city').value.toLowerCase().trim();
+            const city = document.getElementById('shippingCity').value.toLowerCase().trim();
             
             if (city === 'cdmx' || city === 'ciudad de méxico' || city === 'méxico' || city === 'mexico') {
                 return ENVIO_CDMX;
@@ -1305,22 +1143,65 @@
             }
         }
 
-        function actualizarTotal() {
-            const qty = document.getElementById('quantity').value;
+        function abrirShipping() {
+            document.getElementById('shippingModal').classList.add('active');
+        }
+
+        function cerrarShipping() {
+            document.getElementById('shippingModal').classList.remove('active');
+        }
+
+        function calcularYConfirmarEnvio() {
+            const zipcode = document.getElementById('shippingZipcode').value.trim();
+            const city = document.getElementById('shippingCity').value.trim();
+
+            if (!zipcode || !city) {
+                alert('Por favor completa código postal y ciudad');
+                return;
+            }
+
             const envio = calcularEnvio();
+            document.getElementById('shippingCost').textContent = envio;
+            document.getElementById('shippingResult').style.display = 'block';
+
+            // Guardar datos para el siguiente paso
+            document.getElementById('shippingZipcodeHidden').value = zipcode;
+            document.getElementById('shippingCityHidden').value = city;
+            document.getElementById('shippingCostHidden').value = envio;
+
+            // Esperar 1 segundo y abrir checkout
+            setTimeout(() => {
+                cerrarShipping();
+                abrirCheckout();
+            }, 800);
+        }
+
+        function volverAEnvio() {
+            cerrarCheckout();
+            abrirShipping();
+        }
+
+        function actualizarTotalCheckout() {
+            const qty = document.getElementById('quantity').value;
+            const envio = parseInt(document.getElementById('shippingCostHidden').value);
             const subtotal = qty * PRECIO_LIBRO;
             const total = subtotal + envio;
-            
+
             document.getElementById('modalQtyMultiply').textContent = qty;
-            document.getElementById('modalTotal').textContent = total;
             document.getElementById('modalSubtotal').textContent = subtotal;
             document.getElementById('modalEnvio').textContent = envio;
+            document.getElementById('modalTotal').textContent = total;
+
+            const zipcode = document.getElementById('shippingZipcodeHidden').value;
+            const city = document.getElementById('shippingCityHidden').value;
+            document.getElementById('confirmZipcode').textContent = zipcode;
+            document.getElementById('confirmCity').textContent = city;
         }
 
         function abrirCheckout() {
             const qty = document.getElementById('quantity').value;
             document.getElementById('quantity').value = qty;
-            actualizarTotal();
+            actualizarTotalCheckout();
             document.getElementById('checkoutModal').classList.add('active');
         }
 
@@ -1338,6 +1219,12 @@
             parent.classList.toggle('active');
         }
 
+        document.getElementById('shippingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarShipping();
+            }
+        });
+
         document.getElementById('checkoutModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 cerrarCheckout();
@@ -1345,13 +1232,6 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const cityInput = document.getElementById('city');
-            if (cityInput) {
-                cityInput.addEventListener('change', actualizarTotal);
-                cityInput.addEventListener('blur', actualizarTotal);
-                cityInput.addEventListener('keyup', actualizarTotal);
-            }
-
             if (MERCADOPAGO_PUBLIC_KEY && MERCADOPAGO_PUBLIC_KEY !== "APP_USR-tu-public-key-aqui") {
                 const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
                 
@@ -1380,25 +1260,25 @@
 
         document.getElementById('paymentForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const datos = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value,
-                zipcode: document.getElementById('zipcode').value,
-                city: document.getElementById('city').value,
+                zipcode: document.getElementById('shippingZipcodeHidden').value,
+                city: document.getElementById('shippingCityHidden').value,
                 quantity: document.getElementById('quantity').value,
-                envio: calcularEnvio()
+                envio: parseInt(document.getElementById('shippingCostHidden').value)
             };
-            
-            if (!datos.name || !datos.email || !datos.phone || !datos.address || !datos.zipcode || !datos.city) {
+
+            if (!datos.name || !datos.email || !datos.phone || !datos.address) {
                 alert('Por favor completa todos los campos');
                 return;
             }
-            
+
             const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/TU_CODIGO_AQUI/usercopy";
-            
+
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(datos)
