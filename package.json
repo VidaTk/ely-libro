@@ -1,0 +1,8 @@
+{
+  "name": "libro-ely-gonzalez",
+  "version": "1.0.0",
+  "description": "Tienda de libro Ely González",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}

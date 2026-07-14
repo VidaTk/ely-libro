@@ -474,27 +474,41 @@
             const address = document.getElementById('address').value;
             const zipcode = document.getElementById('zipcode').value;
             const city = document.getElementById('city').value;
+            const state = document.getElementById('stateHidden').value;
             const qty = parseInt(document.getElementById('quantity').value);
             const total = parseInt(document.getElementById('modalTotal').textContent);
+            const envio = calcEnvio(state);
 
             if (!name || !email || !phone || !address || !zipcode || !city) {
                 alert('Completa todos los campos');
                 return;
             }
 
-            // Guardar datos en Google Sheet (intentar, pero no bloquear)
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    name, email, phone, address, city, zipcode,
-                    quantity: qty, amount: total
-                })
-            }).catch(e => console.log('Google Sheet guardado (o no disponible)'));
+            alert('Redirigiendo a Stripe Checkout...');
 
-            // Redirigir a gracias SIEMPRE (con o sin Google Sheet)
-            setTimeout(() => {
-                window.location.href = `/gracias?quantity=${qty}&total=${total}&phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(name)}`;
-            }, 500);
+            // Llamar al endpoint para crear Checkout Session
+            fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name, email, phone, address, city, zipcode, state,
+                    quantity: qty, total, envio
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.url) {
+                    // Redirigir a Stripe Checkout
+                    window.location.href = data.url;
+                } else if (data.error) {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('Error al procesar: ' + error);
+            });
         }
 
         document.getElementById('shippingModal').addEventListener('click', function(e) {
