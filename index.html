@@ -1260,8 +1260,55 @@
         });
 
         document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    e.preventDefault();
 
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const zipcode = document.getElementById('zipcode').value;
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('stateHidden').value;
+    
+    if (!name || !email || !phone || !address || !zipcode || !city) {
+        alert('Por favor completa todos los campos');
+        return;
+    }
+
+    // Limpiar container anterior
+    document.getElementById('mercadopagoCheckout').innerHTML = '';
+
+    // Cargar Brick
+    const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
+    const bricksBuilder = mp.bricks();
+    const total = parseInt(document.getElementById('modalTotal').textContent) || 370;
+    
+    console.log('Cargando Brick con monto:', total);
+    
+    bricksBuilder.create("payment", {
+        initialization: {
+            amount: total,
+            payer: { email: email }
+        },
+        customization: {
+            visual: { theme: "default" },
+            paymentMethods: { maxInstallments: 12 }
+        },
+        callbacks: {
+            onReady: () => { console.log('Brick listo'); },
+            onSubmit: async (formData) => {
+                const envio = calcularEnvio(state);
+                const datos = { name, email, phone, address, state, zipcode, city, quantity: document.getElementById('quantity').value, envio };
+                fetch("https://script.google.com/macros/s/AKfycbyextMZt2IvmY8CBlQmCqRCCFqQfSUQV-nmc00vH5tKwPUT1RfKq81R3Pa5A5klaOm5/exec", { method: 'POST', body: JSON.stringify(datos) }).catch(e => {});
+            },
+            onError: (error) => { console.error('Error:', error); alert('Error: ' + error.message); }
+        }
+    }).catch((error) => {
+        console.error('Error Brick:', error);
+        alert('Error al cargar pago: ' + error);
+    });
+});
+        
             const state = document.getElementById('stateHidden').value;
             const envio = calcularEnvio(state);
 
