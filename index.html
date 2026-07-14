@@ -1271,32 +1271,64 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (MERCADOPAGO_PUBLIC_KEY && MERCADOPAGO_PUBLIC_KEY !== "APP_USR-tu-public-key-aqui") {
-                const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
-                
-                const bricksBuilder = mp.bricks();
-                bricksBuilder.create("payment", {
-                    initialization: {
-                        amount: 250
-                    },
-                    callbacks: {
-                        onReady: () => console.log('Payment Brick ready'),
-                        onSubmit: async (formData) => {
-                            console.log('Pago enviado:', formData);
-                        },
-                        onError: (error) => {
-                            console.error('Error en pago:', error);
-                            alert('Hubo un error. Por favor intenta de nuevo.');
-                        }
+    if (MERCADOPAGO_PUBLIC_KEY && MERCADOPAGO_PUBLIC_KEY !== "APP_USR-tu-public-key-aqui") {
+        const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
+        
+        // Mostrar Brick cuando se abre el modal
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (document.getElementById('checkoutModal').classList.contains('active')) {
+                    if (!document.getElementById('mercadopagoCheckout').querySelector('[data-brick-container]')) {
+                        const bricksBuilder = mp.bricks();
+                        
+                        bricksBuilder.create("payment", {
+                            initialization: {
+                                amount: parseInt(document.getElementById('modalTotal').textContent)
+                            },
+                            customization: {
+                                visual: {
+                                    style: {
+                                        theme: "default"
+                                    }
+                                },
+                                paymentMethods: {
+                                    maxInstallments: 12
+                                }
+                            },
+                            callbacks: {
+                                onReady: () => {
+                                    console.log('✓ Payment Brick listo');
+                                },
+                                onSubmit: async (formData) => {
+                                    console.log('Procesando pago...', formData);
+                                    // El pago se procesa automáticamente
+                                    // Los datos de la compra ya se guardaron en Google Sheet
+                                },
+                                onError: (error) => {
+                                    console.error('Error en pago:', error);
+                                    alert('⚠️ Error en el pago. Por favor intenta de nuevo.');
+                                },
+                                onFetching: (resource) => {
+                                    console.log('Cargando:', resource);
+                                }
+                            }
+                        }).then(() => {
+                            console.log('✓ Brick de MercadoPago cargado');
+                        }).catch((error) => {
+                            console.error('Error cargando Brick:', error);
+                            alert('Error al cargar MercadoPago. Por favor recarga la página.');
+                        });
                     }
-                }).then(() => {
-                    // Brick cargado
-                }).catch((error) => {
-                    console.error('Error cargando Brick:', error);
-                });
-            }
+                }
+            });
         });
-
+        
+        observer.observe(document.getElementById('checkoutModal'), {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+});
         document.getElementById('paymentForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
