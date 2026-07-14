@@ -71,6 +71,13 @@
         </footer>
     </div>
 
+    <!-- FORMULARIO OCULTO PARA ACTUALIZAR GOOGLE SHEET -->
+    <form id="updateForm" action="https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec" method="POST" style="display: none;">
+        <input type="hidden" name="action" value="update_payment">
+        <input type="hidden" name="email" id="formEmail">
+        <input type="hidden" name="status" value="Pagado">
+    </form>
+
     <script>
         // Obtener parámetros de la URL
         const params = new URLSearchParams(window.location.search);
@@ -78,6 +85,7 @@
         const total = params.get('total') || '370';
         const phone = params.get('phone') || '+52 55 XXXX XXXX';
         const name = params.get('name') || 'Cliente';
+        const email = params.get('email') || 'ludeb.avs@gmail.com';
 
         // Generar número de pedido aleatorio
         const orderNum = Math.floor(Math.random() * 9000) + 1000;
@@ -88,25 +96,12 @@
         document.getElementById('phone').textContent = phone;
         document.getElementById('orderNum').textContent = orderNum;
 
-        // MARCAR PEDIDO COMO PAGADO EN GOOGLE SHEET
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec';
-        const email = params.get('email') || 'ludeb.avs@gmail.com';
-
+        // ENVIAR FORMULARIO PARA ACTUALIZAR GOOGLE SHEET
+        document.getElementById('formEmail').value = email;
+        
         setTimeout(() => {
-            console.log('📤 Enviando actualización para:', email);
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'update_payment',
-                    email: email,
-                    status: 'Pagado'
-                })
-            }).then(r => r.json()).then(d => {
-                console.log('✅ Respuesta:', d);
-            }).catch(e => console.log('❌ Error:', e));
+            console.log('📤 Actualizando estado para:', email);
+            document.getElementById('updateForm').submit();
         }, 500);
     </script>
 </body>
