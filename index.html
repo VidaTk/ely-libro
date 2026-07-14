@@ -508,25 +508,45 @@
             const cardYear = document.getElementById('cardYear').value;
             const cardCVC = document.getElementById('cardCVC').value;
 
-            stripe.createToken({
-                number: cardNumber,
-                exp_month: cardMonth,
-                exp_year: cardYear,
-                cvc: cardCVC
+            // Usar método correcto de Stripe
+            stripe.createPaymentMethod({
+                type: 'card',
+                card: {
+                    number: cardNumber,
+                    exp_month: cardMonth,
+                    exp_year: cardYear,
+                    cvc: cardCVC
+                },
+                billing_details: {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    address: {
+                        line1: address,
+                        postal_code: zipcode,
+                        city: city,
+                        state: state,
+                        country: 'MX'
+                    }
+                }
             }).then(result => {
                 if (result.error) {
-                    alert('Error de tarjeta: ' + result.error.message);
+                    alert('❌ Error de tarjeta: ' + result.error.message);
                 } else {
-                    // Guardar en Google Sheet y redirigir a gracias
+                    // Guardar en Google Sheet
                     fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
                         body: JSON.stringify({
                             name, email, phone, address, state, zipcode, city,
-                            quantity: qty, envio, amount: total, token: result.token.id
+                            quantity: qty, envio, amount: total, 
+                            paymentMethodId: result.paymentMethod.id
                         })
                     }).then(r => r.json()).then(d => {
+                        // Redirigir a página de gracias
                         window.location.href = `/gracias?quantity=${qty}&total=${total}&phone=${encodeURIComponent(phone)}`;
-                    }).catch(e => alert('Error: ' + e));
+                    }).catch(e => {
+                        alert('❌ Error al procesar: ' + e);
+                    });
                 }
             });
         }
