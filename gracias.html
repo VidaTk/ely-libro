@@ -89,21 +89,25 @@
         document.getElementById('orderNum').textContent = orderNum;
 
         // MARCAR PEDIDO COMO PAGADO EN GOOGLE SHEET
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwm8RVwqdI3zDDGi_FGS2R5jr2tCLIF6STOslsqDm4b50C_m3xvkMNtpKz4Ot29rJrn/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec';
         const email = params.get('email') || 'ludeb.avs@gmail.com';
 
         setTimeout(() => {
+            console.log('📤 Enviando actualización para:', email);
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({
-                    action: 'update_status',
+                    action: 'update_payment',
                     email: email,
                     status: 'Pagado'
                 })
             }).then(r => r.json()).then(d => {
-                console.log('Estado actualizado:', d);
-            }).catch(e => console.log('Error actualizando estado:', e));
-        }, 1000);
+                console.log('✅ Respuesta:', d);
+            }).catch(e => console.log('❌ Error:', e));
+        }, 500);
     </script>
 </body>
 </html>
