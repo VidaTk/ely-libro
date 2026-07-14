@@ -50,7 +50,7 @@ export default async function handler(req, res) {
           },
         ],
         customer_email: email,
-        success_url: `https://libro.elygonz.com/gracias?quantity=${quantity}&total=${total}&phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(name)}`,
+        success_url: `https://libro.elygonz.com/gracias?quantity=${quantity}&total=${total}&phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`,
         cancel_url: 'https://libro.elygonz.com/',
         metadata: {
           name,
