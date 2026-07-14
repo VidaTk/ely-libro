@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No Estás Rota, Estás en Duelo — Ely González</title>
-    <meta name="description" content="No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor — Libro de Ely González. Compra ahora.">
+    <meta name="description" content="No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor — Libro de Ely González.">
     <meta name="theme-color" content="#232F3E">
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.conekta.com/js/latest/conekta.js"></script>
@@ -12,172 +12,183 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; line-height: 1.5; color: #111; background: #ffffff; }
-        header { background: #232F3E; padding: 0.75rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        header { background: #232F3E; padding: 0.75rem 2rem; position: sticky; top: 0; z-index: 100; }
         .header-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; }
-        .header-logo { font-size: 1.6rem; font-weight: 700; color: #FF9900; text-decoration: none; letter-spacing: -1px; }
-        .header-logo strong { display: block; font-size: 1.6rem; }
-        .header-logo small { font-size: 0.6rem; color: #AAB; display: block; margin-top: 0.2rem; letter-spacing: 2px; text-transform: uppercase; }
-        .header-search { flex: 1; display: flex; gap: 0.5rem; }
-        .header-search input { flex: 1; padding: 0.6rem; border: none; border-radius: 3px; font-size: 0.9rem; }
-        .header-search button { padding: 0.6rem 1rem; background: #FF9900; border: none; border-radius: 3px; cursor: pointer; font-weight: 600; color: #000; }
-        .header-search button:hover { background: #FF7700; }
-        .header-nav { display: flex; gap: 1.5rem; color: #FFF; font-size: 0.9rem; }
-        .header-nav a { color: #FFF; text-decoration: none; }
-        @media (max-width: 900px) { .header-search { display: none; } .header-nav { display: none; } .header-container { gap: 1rem; } }
+        .header-logo { font-size: 1.6rem; font-weight: 700; color: #FF9900; text-decoration: none; }
         .breadcrumb { background: #F5F5F5; padding: 0.75rem 2rem; font-size: 0.85rem; color: #666; border-bottom: 1px solid #DDD; }
-        .breadcrumb a { color: #0066C0; text-decoration: none; }
         .main-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
-        .product-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
-        .book-image-section { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: #F9F9F9; padding: 2rem; border-radius: 4px; }
-        .book-image { max-width: 100%; height: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 2px; margin-bottom: 1.5rem; }
-        .book-back-image { max-width: 200px; height: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 2px; }
-        .product-info h1 { font-size: 1.8rem; color: #111; margin-bottom: 0.5rem; font-weight: 700; }
-        .product-author { color: #666; font-size: 1rem; margin-bottom: 1rem; }
-        .price-box { background: #F5F5F5; border: 1px solid #DDD; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0; }
-        .price-main { font-size: 2.5rem; color: #B12704; font-weight: 700; margin: 0.5rem 0; }
-        .shipping-box { background: #F0F0F0; border-left: 4px solid #FF9900; padding: 1rem; margin: 1.5rem 0; border-radius: 2px; }
-        .quantity-section { margin: 1.5rem 0; display: flex; align-items: center; gap: 1rem; }
-        .quantity-select { padding: 0.5rem 1rem; border: 1px solid #DDD; border-radius: 3px; font-size: 0.9rem; cursor: pointer; }
-        .button-section { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
-        .btn { padding: 0.85rem 1.5rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+        .product-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .book-image { max-width: 100%; height: auto; margin-bottom: 1.5rem; border-radius: 4px; }
+        .product-info h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
+        .price-main { font-size: 2.5rem; color: #B12704; font-weight: 700; }
+        .btn { padding: 0.85rem 1.5rem; border: none; border-radius: 3px; cursor: pointer; font-weight: 600; }
         .btn-primary { background: #FF9900; color: #000; }
         .btn-primary:hover { background: #FF7700; }
         .btn-secondary { background: #FFF; color: #111; border: 1px solid #DDD; }
-        .btn-large { padding: 1rem 2rem; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .btn-large { padding: 1rem 2rem; font-size: 1.05rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: #FFF; padding: 2rem; border-radius: 4px; max-width: 600px; width: 95%; max-height: 90vh; overflow-y: auto; position: relative; }
-        .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; }
-        .modal h2 { color: #111; margin-bottom: 1.5rem; font-size: 1.3rem; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
         .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #111; margin-bottom: 0.5rem; }
-        .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #DDD; border-radius: 3px; font-size: 0.9rem; font-family: inherit; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: #FF9900; box-shadow: 0 0 3px rgba(255, 153, 0, 0.3); }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+        .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #DDD; border-radius: 3px; font-size: 0.9rem; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #FF9900; }
         footer { background: #232F3E; color: #FFF; padding: 2rem; margin-top: 4rem; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 2rem; }
-        .footer-col a { display: block; color: #AAB; text-decoration: none; font-size: 0.85rem; line-height: 2; }
-        @media (max-width: 1000px) { .product-section { grid-template-columns: 1fr; } .button-section { grid-template-columns: 1fr; } .footer-content { grid-template-columns: repeat(2, 1fr); } }
+        .details-section { border-top: 1px solid #DDD; padding: 2rem 0; margin-top: 3rem; }
+        .faq-item { border-bottom: 1px solid #EEE; padding: 1rem 0; }
+        .faq-question { cursor: pointer; display: flex; justify-content: space-between; font-weight: 600; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s; }
+        .faq-item.active .faq-answer { max-height: 600px; }
+        @media (max-width: 1000px) { .product-section { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header>
         <div class="header-container">
             <a href="#" class="header-logo"><strong>Ely González</strong><small>Libros</small></a>
-            <div class="header-search">
-                <input type="text" placeholder="Buscar libros...">
-                <button>Buscar</button>
-            </div>
-            <div class="header-nav">
-                <a href="#detalles">Detalles</a>
-                <a href="#faq">Preguntas</a>
-                <a href="https://wa.me/5515855849" target="_blank">WhatsApp</a>
-            </div>
         </div>
     </header>
 
-    <div class="breadcrumb">
-        <a href="#">Inicio</a> › <a href="#">Libros</a> › <a href="#">Salud Mental</a> › <strong>No Estás Rota, Estás en Duelo</strong>
-    </div>
+    <div class="breadcrumb">Inicio › Libros › Salud Mental › No Estás Rota, Estás en Duelo</div>
 
     <div class="main-container">
         <div class="product-section">
-            <div class="book-image-section">
-                <img src="portada.jpeg" alt="No Estás Rota, Estás en Duelo - Ely González" class="book-image">
-                <p style="font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem;">Contraportada</p>
-                <img src="contraportada.jpeg" alt="Contraportada" class="book-back-image">
+            <div>
+                <img src="portada.jpeg" alt="No Estás Rota, Estás en Duelo" class="book-image">
+                <p style="text-align: center; font-size: 0.8rem; color: #999; margin-bottom: 1rem;">CONTRAPORTADA</p>
+                <img src="contraportada.jpeg" alt="Contraportada" style="max-width: 200px; margin: 0 auto; display: block;">
             </div>
 
             <div class="product-info">
                 <h1>No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor</h1>
-                <p class="product-author">por <strong>Ely González</strong> (Autor)</p>
+                <p style="color: #666; font-size: 1rem; margin-bottom: 1rem;">por <strong>Ely González</strong></p>
                 
-                <div class="price-box">
+                <div style="background: #F5F5F5; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0;">
                     <div style="font-size: 0.85rem; color: #666;">Precio:</div>
                     <div class="price-main"><span style="font-size: 1.3rem;">$</span>250<sup>00</sup></div>
-                    <div style="font-size: 0.9rem; color: #666; margin-top: 0.5rem; line-height: 1.6;">
+                    <div style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
                         <strong>Edición de Tapa Blanda</strong><br>
                         Envío CDMX: $90 | Otros: $120-$200
                     </div>
                 </div>
 
-                <div class="shipping-box">
-                    <h3 style="font-size: 0.95rem; color: #111; margin-bottom: 0.5rem; font-weight: 600;">📦 Entregas en toda la República</h3>
-                    <p style="font-size: 0.9rem; color: #555; line-height: 1.6;">Envío <strong>$90 MXN en CDMX</strong>. Otras ciudades: <strong>$120-$200 MXN</strong> según ubicación.</p>
+                <div style="background: #F0F0F0; border-left: 4px solid #FF9900; padding: 1rem; margin: 1.5rem 0;">
+                    <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem;">📦 Entregas en toda la República</h3>
+                    <p style="font-size: 0.9rem; color: #555;">Envío <strong>$90 MXN en CDMX</strong>. Otras ciudades: <strong>$120-$200 MXN</strong>.</p>
                 </div>
 
-                <div style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
-                    <div style="font-size: 1.1rem; color: #27AE60; font-weight: 700;">✓ En Stock</div>
-                </div>
-
-                <div class="quantity-section">
-                    <label style="font-size: 0.9rem; font-weight: 600; color: #111;">Cantidad:</label>
-                    <select id="quantity" class="quantity-select">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-
-                <div class="button-section">
+                <div style="display: flex; gap: 1rem; margin: 2rem 0;">
                     <button class="btn btn-primary btn-large" onclick="abrirShipping()">Comprar ahora</button>
                     <button class="btn btn-secondary btn-large" onclick="contactarWhatsapp()">WhatsApp</button>
                 </div>
+            </div>
+        </div>
 
-                <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-top: 1.5rem; font-size: 0.9rem; color: #555;">
-                    ✓ Pago seguro con Conekta<br>
-                    ✓ Libro en perfecto estado garantizado
+        <div class="details-section" id="detalles">
+            <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Sobre Este Libro</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">Sinopsis</h3>
+                    <p style="font-size: 0.95rem; color: #555; line-height: 1.7;">No estás rota… estás en duelo no es un libro para "superar rápido" el dolor. Es un espacio seguro para comprenderlo, atravesarlo y resignificarlo.</p>
+                    <p style="font-size: 0.95rem; color: #555; line-height: 1.7; margin-top: 1rem;">A través de una mirada cálida, humana y profundamente compasiva, la psicóloga y tanatóloga Ely González acompaña al lector a entender que el duelo no solo ocurre cuando alguien muere.</p>
+                    <p style="font-size: 0.95rem; color: #555; line-height: 1.7; margin-top: 1rem;">Aquí encontrarás: Comprensión, Permiso para sentir, Herramientas emocionales, Metáforas que abrazan, Acompañamiento real.</p>
                 </div>
+                <div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">Especificaciones</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #EEE;">
+                            <td style="padding: 0.75rem 0; font-weight: 600;">Páginas</td>
+                            <td style="padding: 0.75rem 0;">~190</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #EEE;">
+                            <td style="padding: 0.75rem 0; font-weight: 600;">Formato</td>
+                            <td style="padding: 0.75rem 0;">5.5" × 8.5"</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #EEE;">
+                            <td style="padding: 0.75rem 0; font-weight: 600;">Encuadernación</td>
+                            <td style="padding: 0.75rem 0;">Tapa Blanda</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem 0; font-weight: 600;">Idioma</td>
+                            <td style="padding: 0.75rem 0;">Español</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Testimonios</h2>
+            <div style="background: #FAFAFA; padding: 1.5rem; border-left: 4px solid #FF9900; margin-bottom: 1rem;">
+                <p style="font-size: 0.95rem; color: #555; margin-bottom: 0.75rem;">"Un libro que te toca profundo. Las palabras de Ely son acompañamiento real. Cambió mi forma de entender el duelo."</p>
+                <div style="font-size: 0.9rem; color: #111; font-weight: 600;">★★★★★ María S. — CDMX</div>
+            </div>
+            <div style="background: #FAFAFA; padding: 1.5rem; border-left: 4px solid #FF9900;">
+                <p style="font-size: 0.95rem; color: #555; margin-bottom: 0.75rem;">"Finalmente encontré una guía que no minimiza el dolor. Lectura esencial para terapeutas."</p>
+                <div style="font-size: 0.9rem; color: #111; font-weight: 600;">★★★★★ Dr. Carlos R. — Monterrey</div>
+            </div>
+        </div>
+
+        <div class="details-section" id="faq">
+            <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Preguntas Frecuentes</h2>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Cuánto tiempo tarda la entrega?</span>
+                    <span style="color: #0066C0;">▼</span>
+                </div>
+                <div class="faq-answer" style="color: #555; font-size: 0.9rem; margin-top: 1rem;">En CDMX: 2-3 días. En otras ciudades: 3-5 días según la paquetería.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Cuál es el costo de envío?</span>
+                    <span style="color: #0066C0;">▼</span>
+                </div>
+                <div class="faq-answer" style="color: #555; font-size: 0.9rem; margin-top: 1rem;">CDMX: $90 MXN. Otras ciudades: $120-$200 MXN según código postal.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Qué métodos de pago aceptan?</span>
+                    <span style="color: #0066C0;">▼</span>
+                </div>
+                <div class="faq-answer" style="color: #555; font-size: 0.9rem; margin-top: 1rem;">Conekta acepta tarjetas de crédito/débito, transferencias bancarias, OXXO y billeteras digitales.</div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Sobre La Autora</h2>
+            <p style="font-size: 1rem; color: #555; line-height: 1.8;">
+                <strong>Ely González</strong> es Psicóloga, Tanatóloga y Autora con más de 10 años de experiencia acompañando a personas en duelo. Su misión es transformar el dolor en conciencia y vida auténtica.
+            </p>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="https://www.instagram.com/elygonzalez2505/" target="_blank" class="btn btn-secondary">Seguir en Instagram</a>
+                <a href="https://wa.me/5515855849" target="_blank" class="btn btn-secondary">WhatsApp</a>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Ely González</h4>
-                <p style="font-size: 0.85rem; color: #AAB; line-height: 1.8;">Tienda oficial del libro "No Estás Rota, Estás en Duelo"</p>
-            </div>
-            <div class="footer-col">
-                <h4>Navegación</h4>
-                <a href="#">Detalles</a>
-                <a href="#">Preguntas</a>
-            </div>
-            <div class="footer-col">
-                <h4>Contacto</h4>
-                <a href="https://wa.me/5515855849" target="_blank">WhatsApp</a>
-                <a href="https://www.instagram.com/elygonzalez2505/" target="_blank">Instagram</a>
-            </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <a href="#">Términos de Servicio</a>
-                <a href="#">Política de Privacidad</a>
-            </div>
-        </div>
-        <div style="border-top: 1px solid #3A4A5C; padding-top: 2rem; text-align: center; color: #AAB; font-size: 0.8rem;">
+        <div style="max-width: 1400px; margin: 0 auto;">
             <p>&copy; 2026 Ely González. Todos los derechos reservados.</p>
             <p>Pago seguro vía Conekta • Envíos a toda la República Mexicana</p>
         </div>
     </footer>
 
-    <!-- MODAL PASO 1: SELECCIONAR ESTADO -->
     <div class="modal" id="shippingModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarShipping()">✕</button>
             <h2>Selecciona tu Estado</h2>
-            <p style="color: #666; font-size: 0.95rem; margin-bottom: 1.5rem;">Necesitamos tu estado para calcular el costo de envío.</p>
             <div class="form-group">
                 <label for="state">Estado *</label>
                 <select id="state" required>
-                    <option value="">-- Selecciona tu Estado --</option>
+                    <option value="">-- Selecciona --</option>
                     <option value="Ciudad de México">Ciudad de México</option>
                     <option value="Estado de México">Estado de México</option>
                     <option value="Jalisco">Jalisco</option>
                     <option value="Nuevo León">Nuevo León</option>
+                    <option value="Puebla">Puebla</option>
                     <option value="Aguascalientes">Aguascalientes</option>
                     <option value="Baja California">Baja California</option>
-                    <option value="Campeche">Campeche</option>
                     <option value="Chiapas">Chiapas</option>
                     <option value="Chihuahua">Chihuahua</option>
                     <option value="Coahuila">Coahuila</option>
@@ -190,7 +201,6 @@
                     <option value="Morelos">Morelos</option>
                     <option value="Nayarit">Nayarit</option>
                     <option value="Oaxaca">Oaxaca</option>
-                    <option value="Puebla">Puebla</option>
                     <option value="Querétaro">Querétaro</option>
                     <option value="Quintana Roo">Quintana Roo</option>
                     <option value="San Luis Potosí">San Luis Potosí</option>
@@ -204,79 +214,75 @@
                     <option value="Zacatecas">Zacatecas</option>
                 </select>
             </div>
-            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; border-radius: 4px; margin: 1.5rem 0; display: none;">
-                <div style="font-size: 0.9rem; color: #555; margin-bottom: 0.5rem;">Costo de envío:</div>
+            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; margin: 1.5rem 0; display: none;">
+                <div style="font-size: 0.9rem; color: #555;">Costo de envío:</div>
                 <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">120</span>.00 MXN</div>
             </div>
             <button class="btn btn-primary btn-large" onclick="confirmarEstado()" style="width: 100%;">Continuar</button>
-            <button class="btn btn-secondary btn-large" onclick="cerrarShipping()" style="width: 100%; margin-top: 0.5rem;">Cancelar</button>
         </div>
     </div>
 
-    <!-- MODAL PASO 2: CHECKOUT CON CONEKTA -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarCheckout()">✕</button>
             <h2>Completar Compra</h2>
-            <div style="background: #F5F5F5; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+            <div style="background: #F5F5F5; padding: 1rem; margin-bottom: 1.5rem;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-                    <span>Libros ($250 × <span id="modalQty">1</span>)</span>
-                    <strong>$<span id="modalSubtotal">250</span>.00 MXN</strong>
+                    <span>Libros ($250 × 1)</span>
+                    <strong>$250.00 MXN</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #DDD;">
+                <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid #DDD;">
                     <span>Envío</span>
                     <strong>$<span id="modalEnvio">120</span>.00 MXN</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: #B12704;">
-                    <span>Total a pagar:</span>
+                    <span>Total:</span>
                     <span>$<span id="modalTotal">370</span>.00 MXN</span>
                 </div>
             </div>
 
-            <form id="paymentForm">
+            <form id="paymentForm" onsubmit="procesarPago(event)">
                 <div class="form-group">
                     <label for="name">Nombre Completo *</label>
-                    <input type="text" id="name" required placeholder="Tu nombre">
+                    <input type="text" id="name" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electrónico *</label>
-                    <input type="email" id="email" required placeholder="tu@email.com">
+                    <input type="email" id="email" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Teléfono/WhatsApp *</label>
-                    <input type="tel" id="phone" required placeholder="55 XXXX XXXX">
+                    <input type="tel" id="phone" required>
                 </div>
                 <div class="form-group">
                     <label for="address">Dirección de Entrega *</label>
-                    <input type="text" id="address" required placeholder="Calle, número">
+                    <input type="text" id="address" required>
                 </div>
                 <div class="form-group">
                     <label for="zipcode">Código Postal *</label>
-                    <input type="text" id="zipcode" required placeholder="06170">
+                    <input type="text" id="zipcode" required>
                 </div>
                 <div class="form-group">
                     <label for="city">Ciudad *</label>
-                    <input type="text" id="city" required placeholder="CDMX">
+                    <input type="text" id="city" required>
                 </div>
 
-                <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #111; font-size: 1rem;">Datos de Tarjeta</h3>
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Datos de Tarjeta</h3>
                 
                 <div class="form-group">
                     <label for="cardNumber">Número de Tarjeta *</label>
                     <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" maxlength="19" required>
                 </div>
-
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
                         <label for="cardMonth">Mes *</label>
-                        <input type="text" id="cardMonth" placeholder="MM" maxlength="2" required>
+                        <input type="text" id="cardMonth" placeholder="12" maxlength="2" required>
                     </div>
                     <div class="form-group">
                         <label for="cardYear">Año *</label>
-                        <input type="text" id="cardYear" placeholder="YY" maxlength="2" required>
+                        <input type="text" id="cardYear" placeholder="25" maxlength="2" required>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="cardCVC">CVC *</label>
                     <input type="text" id="cardCVC" placeholder="123" maxlength="4" required>
@@ -294,7 +300,7 @@
     </div>
 
     <script>
-        const CONEKTA_PUBLIC_KEY = "key_Btm62c6VrVrW9CFqfNzezJr"; // REEMPLAZAR CON TU PUBLIC KEY
+        const CONEKTA_PUBLIC_KEY = "key_Btm62c6VrVrW9CFqfNzezJr";
         const PRECIO_LIBRO = 250;
         const ENVIO_CDMX = 90;
         const ENVIO_OTROS = 120;
@@ -324,23 +330,12 @@
             document.getElementById('shippingResult').style.display = 'block';
             document.getElementById('stateHidden').value = state;
             document.getElementById('shippingCostHidden').value = envio;
+            document.getElementById('modalEnvio').textContent = envio;
+            document.getElementById('modalTotal').textContent = PRECIO_LIBRO + envio;
             setTimeout(() => {
                 cerrarShipping();
-                abrirCheckout();
+                document.getElementById('checkoutModal').classList.add('active');
             }, 500);
-        }
-
-        function abrirCheckout() {
-            const qty = document.getElementById('quantity').value;
-            const envio = parseInt(document.getElementById('shippingCostHidden').value);
-            const subtotal = qty * PRECIO_LIBRO;
-            const total = subtotal + envio;
-            
-            document.getElementById('modalQty').textContent = qty;
-            document.getElementById('modalSubtotal').textContent = subtotal;
-            document.getElementById('modalEnvio').textContent = envio;
-            document.getElementById('modalTotal').textContent = total;
-            document.getElementById('checkoutModal').classList.add('active');
         }
 
         function cerrarCheckout() {
@@ -348,11 +343,15 @@
         }
 
         function contactarWhatsapp() {
-            window.open('https://wa.me/5515855849?text=Hola%20Ely%20tengo%20una%20pregunta%20sobre%20tu%20libro', '_blank');
+            window.open('https://wa.me/5515855849?text=Hola%20Ely', '_blank');
         }
 
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function toggleFAQ(element) {
+            element.parentElement.classList.toggle('active');
+        }
+
+        function procesarPago(event) {
+            event.preventDefault();
 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -371,10 +370,10 @@
                 return;
             }
 
-            // Inicializar Conekta
+            alert('Procesando pago...');
+
             Conekta.setPublicKey(CONEKTA_PUBLIC_KEY);
 
-            // Crear token
             Conekta.Token.create({
                 card: {
                     number: cardNumber,
@@ -389,7 +388,7 @@
                     
                     const datos = {
                         name, email, phone, address, state, zipcode, city,
-                        quantity: document.getElementById('quantity').value,
+                        quantity: 1,
                         envio,
                         amount: total,
                         conektaToken: token.id
@@ -407,10 +406,10 @@
                     });
                 },
                 error: function(error) {
-                    alert('❌ Error de tarjeta: ' + error.message);
+                    alert('❌ Error: ' + error.message);
                 }
             });
-        });
+        }
 
         document.getElementById('shippingModal').addEventListener('click', function(e) {
             if (e.target === this) cerrarShipping();
