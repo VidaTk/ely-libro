@@ -7,9 +7,9 @@ export default async function handler(req, res) {
     try {
       const { name, email, phone, address, city, zipcode, state, quantity, total, envio } = req.body;
 
-      // GUARDAR EN GOOGLE SHEET COMO "PENDIENTE - ESPERANDO PAGO"
+      // GUARDAR EN GOOGLE SHEET COMO "PAGADO" DIRECTAMENTE
       try {
-        await fetch(GOOGLE_SCRIPT_URL, {
+        const sheetResponse = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -24,13 +24,13 @@ export default async function handler(req, res) {
             city,
             quantity,
             envio,
-            amount: total
-            // NO incluimos 'status' aquí, el script lo pone como "Pendiente - Esperando pago"
+            amount: total,
+            status: 'Pagado'  // ✅ GUARDAMOS DIRECTAMENTE COMO PAGADO
           })
         });
-        console.log('Pedido registrado en Google Sheet para:', email);
+        console.log('✅ Pedido guardado como PAGADO en Google Sheet para:', email);
       } catch (sheetError) {
-        console.log('Google Sheet error:', sheetError.message);
+        console.log('Google Sheet error (continuando):', sheetError.message);
       }
 
       // CREAR CHECKOUT SESSION EN STRIPE
