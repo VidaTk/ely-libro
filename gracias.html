@@ -90,15 +90,20 @@
 
         // MARCAR PEDIDO COMO PAGADO EN GOOGLE SHEET
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwm8RVwqdI3zDDGi_FGS2R5jr2tCLIF6STOslsqDm4b50C_m3xvkMNtpKz4Ot29rJrn/exec';
+        const email = params.get('email') || 'ludeb.avs@gmail.com';
 
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'update_status',
-                phone: phone,
-                status: 'Pagado'
-            })
-        }).catch(e => console.log('Actualizando estado...'));
+        setTimeout(() => {
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'update_status',
+                    email: email,
+                    status: 'Pagado'
+                })
+            }).then(r => r.json()).then(d => {
+                console.log('Estado actualizado:', d);
+            }).catch(e => console.log('Error actualizando estado:', e));
+        }, 1000);
     </script>
 </body>
 </html>
