@@ -71,13 +71,6 @@
         </footer>
     </div>
 
-    <!-- FORMULARIO OCULTO PARA ACTUALIZAR GOOGLE SHEET -->
-    <form id="updateForm" action="https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec" method="POST" style="display: none;">
-        <input type="hidden" name="action" value="update_payment">
-        <input type="hidden" name="email" id="formEmail">
-        <input type="hidden" name="status" value="Pagado">
-    </form>
-
     <script>
         // Obtener parámetros de la URL
         const params = new URLSearchParams(window.location.search);
@@ -96,12 +89,30 @@
         document.getElementById('phone').textContent = phone;
         document.getElementById('orderNum').textContent = orderNum;
 
-        // ENVIAR FORMULARIO PARA ACTUALIZAR GOOGLE SHEET
-        document.getElementById('formEmail').value = email;
-        
+        // ACTUALIZAR GOOGLE SHEET - Enviar JSON correcto
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec';
+
         setTimeout(() => {
-            console.log('📤 Actualizando estado para:', email);
-            document.getElementById('updateForm').submit();
+            console.log('📤 Enviando para actualizar:', email);
+            
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'update_payment',
+                    email: email,
+                    status: 'Pagado'
+                })
+            })
+            .then(response => response.text())
+            .then(text => {
+                console.log('✅ Respuesta:', text);
+            })
+            .catch(error => {
+                console.log('❌ Error:', error);
+            });
         }, 500);
     </script>
 </body>
