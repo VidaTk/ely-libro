@@ -986,7 +986,7 @@
             <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                 <a href="https://www.instagram.com" target="_blank" class="btn btn-secondary">Seguir en Instagram</a>
                 <a href="https://wa.me/5515855849" target="_blank" class="btn btn-secondary">WhatsApp</a>
-                <a href="https://elygonz.com" target="_blank" class="btn btn-secondary">Página Web de Ely González</a>
+                <a href="https://speakers.vidabiz.app/speakers/ely-gonzalez" target="_blank" class="btn btn-secondary">Página Web de Ely González</a>
             </div>
         </div>
     </div>
@@ -1112,6 +1112,7 @@
                 <div style="font-weight: 600; color: #111;">📦 Envío a:</div>
                 <div style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">
                     <strong id="confirmState">--</strong><br>
+                    CP <strong id="confirmZipcode">--</strong>, <strong id="confirmCity">--</strong><br>
                     <a href="#" onclick="volverASeleccionar()" style="color: #0066C0; text-decoration: none;">Cambiar estado</a>
                 </div>
             </div>
@@ -1165,8 +1166,8 @@
     </div>
 
     <script>
-        // TODO: Reemplaza con tu PUBLIC KEY de MercadoPago
-        const MERCADOPAGO_PUBLIC_KEY = "APP_USR-tu-public-key-aqui";
+        // MercadoPago PUBLIC KEY - PRODUCCIÓN
+        const MERCADOPAGO_PUBLIC_KEY = "APP_USR-f8451ce8-7775-4dac-bcdc-b997292dc8b4";
         const PRECIO_LIBRO = 250;
         const ENVIO_CDMX = 90;
         const ENVIO_OTROS = 120;
@@ -1320,7 +1321,7 @@
                 return;
             }
 
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/TU_CODIGO_AQUI/usercopy";
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEnhcIMEi8yKBIlPrwvtvCYG534DkFdlIgjALtkBCdAKvKNfA5WUZUttaB2BjzMUZH/exec";
 
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
