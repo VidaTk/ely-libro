@@ -1,4 +1,4 @@
-const stripe = require('stripe')('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');
+const stripe = require('stripe')('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');
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec';
 
