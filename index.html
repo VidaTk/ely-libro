@@ -24,10 +24,13 @@
         .price-box { background: #F5F5F5; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0; border: 1px solid #DDD; }
         .price-main { font-size: 2.5rem; color: #B12704; font-weight: 700; }
         .shipping-box { background: #F0F0F0; border-left: 4px solid #FF9900; padding: 1rem; margin: 1.5rem 0; }
+        .quantity-section { margin: 1.5rem 0; display: flex; align-items: center; gap: 1rem; }
+        .quantity-select { padding: 0.5rem 1rem; border: 1px solid #DDD; border-radius: 3px; font-size: 0.9rem; cursor: pointer; }
         .btn { padding: 0.85rem 1.5rem; border: none; border-radius: 3px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
         .btn-primary { background: #FF9900; color: #000; }
         .btn-primary:hover { background: #FF7700; }
         .btn-large { padding: 1rem 2rem; font-size: 1.05rem; }
+        .button-section { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: #FFF; padding: 2rem; border-radius: 4px; max-width: 600px; width: 95%; max-height: 90vh; overflow-y: auto; position: relative; }
@@ -51,7 +54,7 @@
         .faq-question { cursor: pointer; display: flex; justify-content: space-between; font-weight: 600; user-select: none; }
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s; color: #555; font-size: 0.9rem; }
         .faq-item.active .faq-answer { max-height: 600px; margin-top: 1rem; }
-        @media (max-width: 1000px) { .product-section { grid-template-columns: 1fr; } }
+        @media (max-width: 1000px) { .product-section { grid-template-columns: 1fr; } .button-section { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -94,9 +97,31 @@
                     <div style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">Cantidad limitada disponible</div>
                 </div>
 
-                <div style="display: flex; gap: 1rem; margin: 2rem 0;">
+                <div class="quantity-section">
+                    <label style="font-size: 0.9rem; font-weight: 600; color: #111;">Cantidad:</label>
+                    <select id="quantity" class="quantity-select">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div class="button-section">
                     <button class="btn btn-primary btn-large" onclick="abrirShipping()">Comprar ahora</button>
                     <button class="btn btn-large" style="background: #FFF; color: #111; border: 1px solid #DDD;" onclick="contactarWhatsapp()">WhatsApp</button>
+                </div>
+
+                <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-top: 1.5rem; font-size: 0.9rem; color: #555;">
+                    ✓ Pago 100% seguro con Conekta<br>
+                    ✓ Libro en perfecto estado garantizado<br>
+                    ✓ Libro físico de tapa blanda profesional
                 </div>
             </div>
         </div>
@@ -107,8 +132,13 @@
                 <div class="detail-block">
                     <h3>Sinopsis</h3>
                     <p>No estás rota… estás en duelo no es un libro para "superar rápido" el dolor. Es un espacio seguro para comprenderlo, atravesarlo y resignificarlo.</p>
-                    <p>A través de una mirada cálida, humana y profundamente compasiva, la psicóloga y tanatóloga Ely González acompaña al lector a entender que el duelo no solo ocurre cuando alguien muere. También aparece después de una separación, una traición, una enfermedad, la pérdida de una etapa de vida.</p>
-                    <p style="margin-top: 1rem; font-weight: 600;">Aquí encontrarás:</p>
+                    
+                    <p>A través de una mirada cálida, humana y profundamente compasiva, la psicóloga y tanatóloga Ely González acompaña al lector a entender que el duelo no solo ocurre cuando alguien muere. También aparece después de una separación, una traición, una enfermedad, la pérdida de una etapa de vida, una amistad, una versión de nosotros mismos o incluso de los sueños que no pudieron ser.</p>
+                    
+                    <p>Este libro combina psicología del duelo, tanatología contemporánea, espiritualidad y ejercicios suaves de reflexión para ayudar a quienes sienten que el dolor los ha cambiado profundamente.</p>
+
+                    <p>Aquí no encontrarás frases vacías ni positivismo forzado. No se te pedirá "cerrar ciclos", olvidar o dejar de sentir. Encontrarás algo mucho más valioso:</p>
+                    
                     <ul>
                         <li>Comprensión genuina</li>
                         <li>Permiso para sentir</li>
@@ -116,6 +146,21 @@
                         <li>Metáforas que abrazan</li>
                         <li>Acompañamiento real</li>
                     </ul>
+
+                    <p style="margin-top: 1rem;"><strong>A lo largo de sus páginas aprenderás sobre:</strong></p>
+                    <ul>
+                        <li>Las tareas del duelo</li>
+                        <li>Las emociones que aparecen durante una pérdida</li>
+                        <li>Cómo adaptarte a una nueva realidad</li>
+                        <li>Cómo seguir viviendo sin dejar de amar</li>
+                        <li>La diferencia entre dolor y sufrimiento</li>
+                        <li>Espiritualidad y sentido en medio de la ausencia</li>
+                        <li>Cuándo pedir ayuda profesional</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;">Este libro está pensado para quienes han tenido que ser fuertes por demasiado tiempo. Para quienes sienten que algo dentro de sí se rompió después de perder a alguien o algo importante. Y sobre todo, para recordarles una verdad profundamente humana: No estás rota. Estás atravesando una experiencia de amor, pérdida y transformación.</p>
+
+                    <p style="margin-top: 1rem;">Un libro para leer despacio, subrayar, llorar, respirar… y volver a él cada vez que el corazón lo necesite.</p>
                 </div>
                 <div class="detail-block">
                     <h3>Especificaciones</h3>
@@ -246,12 +291,13 @@
                 <label for="state">Estado *</label>
                 <select id="state" required>
                     <option value="">-- Selecciona --</option>
-                    <option value="Ciudad de México">Ciudad de México</option>
                     <option value="Aguascalientes">Aguascalientes</option>
                     <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
                     <option value="Campeche">Campeche</option>
                     <option value="Chiapas">Chiapas</option>
                     <option value="Chihuahua">Chihuahua</option>
+                    <option value="Ciudad de México">Ciudad de México</option>
                     <option value="Coahuila">Coahuila</option>
                     <option value="Colima">Colima</option>
                     <option value="Durango">Durango</option>
@@ -279,7 +325,7 @@
                     <option value="Zacatecas">Zacatecas</option>
                 </select>
             </div>
-            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; margin: 1.5rem 0; display: none;">
+            <div id="shippingResult" style="background: #F0F0F0; padding: 1rem; margin: 1.5rem 0; display: none; border-radius: 4px;">
                 <div style="font-size: 0.9rem; color: #555;">Costo de envío:</div>
                 <div style="font-size: 1.3rem; font-weight: 700; color: #27AE60;">$<span id="shippingCost">120</span>.00 MXN</div>
             </div>
@@ -294,10 +340,10 @@
             <h2>Completar Compra</h2>
             <div style="background: #F5F5F5; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-                    <span>Libros ($250 × 1)</span>
-                    <strong>$250.00 MXN</strong>
+                    <span>Libros ($250 × <span id="modalQty">1</span>)</span>
+                    <strong>$<span id="modalSubtotal">250</span>.00 MXN</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid #DDD;">
+                <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid #DDD; margin-bottom: 1rem;">
                     <span>Envío</span>
                     <strong>$<span id="modalEnvio">120</span>.00 MXN</strong>
                 </div>
@@ -309,7 +355,7 @@
 
             <form id="paymentForm" onsubmit="procesarPago(event)">
                 <div class="form-group">
-                    <label>Datos de Envío</label>
+                    <label style="display: block; font-weight: 600; margin-bottom: 1rem;">Datos de Envío</label>
                     <label for="name">Nombre Completo *</label>
                     <input type="text" id="name" required>
                 </div>
@@ -391,13 +437,23 @@
             const state = document.getElementById('state').value;
             if (!state) { alert('Selecciona estado'); return; }
             const envio = calcEnvio(state);
+            const qty = parseInt(document.getElementById('quantity').value);
+            const subtotal = qty * PRECIO;
+            const total = subtotal + envio;
+            
             document.getElementById('shippingCost').textContent = envio;
             document.getElementById('shippingResult').style.display = 'block';
             document.getElementById('stateHidden').value = state;
             document.getElementById('shippingCostHidden').value = envio;
+            document.getElementById('modalQty').textContent = qty;
+            document.getElementById('modalSubtotal').textContent = subtotal;
             document.getElementById('modalEnvio').textContent = envio;
-            document.getElementById('modalTotal').textContent = PRECIO + envio;
-            setTimeout(() => { cerrarShipping(); document.getElementById('checkoutModal').classList.add('active'); }, 500);
+            document.getElementById('modalTotal').textContent = total;
+            
+            setTimeout(() => { 
+                cerrarShipping(); 
+                document.getElementById('checkoutModal').classList.add('active'); 
+            }, 500);
         }
 
         function cerrarCheckout() {
@@ -421,6 +477,7 @@
             const zipcode = document.getElementById('zipcode').value;
             const city = document.getElementById('city').value;
             const state = document.getElementById('stateHidden').value;
+            const qty = document.getElementById('quantity').value;
 
             if (!name || !email || !phone || !address || !zipcode || !city) {
                 alert('Completa todos los campos');
@@ -446,7 +503,7 @@
                         method: 'POST',
                         body: JSON.stringify({
                             name, email, phone, address, state, zipcode, city,
-                            quantity: 1, envio, amount: total, token: token.id
+                            quantity: qty, envio, amount: total, token: token.id
                         })
                     }).then(r => r.json()).then(d => {
                         alert('✅ ¡Compra procesada!\n\nTotal: $' + total + ' MXN\n\nRecibiras confirmación por WhatsApp.');
@@ -466,6 +523,20 @@
 
         document.getElementById('checkoutModal').addEventListener('click', function(e) {
             if (e.target === this) cerrarCheckout();
+        });
+
+        // Actualizar total cuando cambia cantidad
+        document.getElementById('quantity').addEventListener('change', function() {
+            const checkoutModal = document.getElementById('checkoutModal');
+            if (checkoutModal.classList.contains('active')) {
+                const qty = parseInt(this.value);
+                const envio = parseInt(document.getElementById('shippingCostHidden').value);
+                const subtotal = qty * PRECIO;
+                const total = subtotal + envio;
+                document.getElementById('modalQty').textContent = qty;
+                document.getElementById('modalSubtotal').textContent = subtotal;
+                document.getElementById('modalTotal').textContent = total;
+            }
         });
     </script>
 </body>
