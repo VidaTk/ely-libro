@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No Estás Rota, Estás en Duelo — Ely González</title>
-    <meta name="description" content="No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor — Libro de Ely González.">
     <link rel="icon" type="image/png" href="favicon.png">
-    <script src="https://cdn.conekta.com/js/latest/conekta.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.5; color: #111; }
-        header { background: #232F3E; padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-        .header-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; }
-        .header-logo { font-size: 1.6rem; font-weight: 700; color: #FF9900; text-decoration: none; }
-        .header-logo strong { display: block; }
+        header { background: #232F3E; padding: 0.75rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .header-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; }
+        .header-logo { font-size: 1.5rem; font-weight: 700; color: #FF9900; text-decoration: none; white-space: nowrap; }
+        .header-search { flex: 1; display: flex; gap: 0.5rem; }
+        .header-search input { flex: 1; padding: 0.6rem 0.8rem; border: none; border-radius: 3px; font-size: 0.9rem; }
+        .header-search button { padding: 0.6rem 1rem; background: #FF9900; border: none; border-radius: 3px; cursor: pointer; font-weight: 600; color: #000; }
+        .header-search button:hover { background: #FF7700; }
+        .header-nav { display: flex; gap: 1.5rem; color: #FFF; font-size: 0.9rem; }
+        .header-nav a { color: #FFF; text-decoration: none; }
+        .header-nav a:hover { color: #FF9900; }
+        @media (max-width: 900px) { .header-search { display: none; } .header-nav { display: none; } .header-container { gap: 1rem; } }
         .breadcrumb { background: #F5F5F5; padding: 0.75rem 2rem; font-size: 0.85rem; color: #666; }
         .main-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
         .product-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
@@ -60,7 +66,16 @@
 <body>
     <header>
         <div class="header-container">
-            <a href="#" class="header-logo"><strong>Ely González</strong><small>LIBROS</small></a>
+            <a href="/" class="header-logo">Ely González</a>
+            <div class="header-search">
+                <input type="text" placeholder="Buscar libros...">
+                <button>Buscar</button>
+            </div>
+            <div class="header-nav">
+                <a href="#detalles">Detalles</a>
+                <a href="#faq">Preguntas</a>
+                <a href="https://wa.me/5515855849" target="_blank">WhatsApp</a>
+            </div>
         </div>
     </header>
 
@@ -75,7 +90,7 @@
             </div>
 
             <div>
-                <h1 class="product-info h1">No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor</h1>
+                <h1>No Estás Rota, Estás en Duelo: Un Camino para Integrar el Dolor</h1>
                 <p class="product-author">por <strong>Ely González</strong></p>
                 
                 <div class="price-box">
@@ -119,14 +134,14 @@
                 </div>
 
                 <div style="background: #FFF9E6; padding: 1rem; border-radius: 4px; margin-top: 1.5rem; font-size: 0.9rem; color: #555;">
-                    ✓ Pago 100% seguro con Conekta<br>
+                    ✓ Pago 100% seguro con Stripe<br>
                     ✓ Libro en perfecto estado garantizado<br>
                     ✓ Libro físico de tapa blanda profesional
                 </div>
             </div>
         </div>
 
-        <div class="details-section">
+        <div class="details-section" id="detalles">
             <h2>Sobre Este Libro</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                 <div class="detail-block">
@@ -253,7 +268,7 @@
                     <span>¿Qué métodos de pago aceptan?</span>
                     <span style="color: #0066C0;">▼</span>
                 </div>
-                <div class="faq-answer">Conekta acepta: tarjetas de crédito/débito (Visa, Mastercard, AmEx), transferencia bancaria, OXXO, efectivo en OXXO y billeteras digitales.</div>
+                <div class="faq-answer">Stripe acepta: tarjetas de crédito/débito (Visa, Mastercard, AmEx), Apple Pay, Google Pay y más. Pago 100% seguro.</div>
             </div>
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
@@ -279,7 +294,7 @@
 
     <footer>
         <p>&copy; 2026 Ely González. Todos los derechos reservados.</p>
-        <p>Pago seguro vía Conekta • Envíos a toda la República Mexicana</p>
+        <p>Pago seguro vía Stripe • Envíos a toda la República Mexicana</p>
     </footer>
 
     <!-- MODAL ESTADO -->
@@ -354,8 +369,9 @@
             </div>
 
             <form id="paymentForm" onsubmit="procesarPago(event)">
+                <label style="display: block; font-weight: 600; margin-bottom: 1rem;">Datos de Envío</label>
+                
                 <div class="form-group">
-                    <label style="display: block; font-weight: 600; margin-bottom: 1rem;">Datos de Envío</label>
                     <label for="name">Nombre Completo *</label>
                     <input type="text" id="name" required>
                 </div>
@@ -410,16 +426,17 @@
                 <button type="submit" class="btn btn-primary btn-large" style="width: 100%; margin-top: 1.5rem;">Procesar Pago Seguro</button>
             </form>
 
-            <p style="font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem;">💳 Pago procesado de forma segura por Conekta</p>
+            <p style="font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem;">💳 Pago procesado de forma segura por Stripe</p>
         </div>
     </div>
 
     <script>
-        const CONEKTA_PUBLIC_KEY = "key_Btm62c6VrVrW9CFqfNzezJr";
+        const STRIPE_PUBLIC_KEY = "pk_test_51Tt4jyCi7Y03eRqbPb2d4I7lhKEMFoa7aqRKZMlPClo2w9llyDpLLRDSnqHIUu5Np6x3kUtNSVZw0cNlMWiVghf0007FFypBNW";
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyextMZt2IvmY8CBlQmCqRCCFqQfSUQV-nmc00vH5tKwPUT1RfKq81R3Pa5A5klaOm5/exec";
         const PRECIO = 250;
         const ENVIO_CDMX = 90;
         const ENVIO_OTROS = 120;
+        const stripe = Stripe(STRIPE_PUBLIC_KEY);
 
         function calcEnvio(state) {
             return state === 'Ciudad de México' ? ENVIO_CDMX : (state ? ENVIO_OTROS : 0);
@@ -477,42 +494,39 @@
             const zipcode = document.getElementById('zipcode').value;
             const city = document.getElementById('city').value;
             const state = document.getElementById('stateHidden').value;
-            const qty = document.getElementById('quantity').value;
+            const qty = parseInt(document.getElementById('quantity').value);
+            const total = parseInt(document.getElementById('modalTotal').textContent);
+            const envio = calcEnvio(state);
 
             if (!name || !email || !phone || !address || !zipcode || !city) {
                 alert('Completa todos los campos');
                 return;
             }
 
-            Conekta.setPublicKey(CONEKTA_PUBLIC_KEY);
-            const card = {
-                number: document.getElementById('cardNumber').value.replace(/\s/g, ''),
-                name: name,
-                exp_month: document.getElementById('cardMonth').value,
-                exp_year: document.getElementById('cardYear').value,
-                cvc: document.getElementById('cardCVC').value
-            };
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const cardMonth = document.getElementById('cardMonth').value;
+            const cardYear = document.getElementById('cardYear').value;
+            const cardCVC = document.getElementById('cardCVC').value;
 
-            Conekta.Token.create({
-                card: card,
-                success: function(token) {
-                    const envio = calcEnvio(state);
-                    const total = parseInt(document.getElementById('modalTotal').textContent);
-                    
+            stripe.createToken({
+                number: cardNumber,
+                exp_month: cardMonth,
+                exp_year: cardYear,
+                cvc: cardCVC
+            }).then(result => {
+                if (result.error) {
+                    alert('Error de tarjeta: ' + result.error.message);
+                } else {
+                    // Guardar en Google Sheet y redirigir a gracias
                     fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
                         body: JSON.stringify({
                             name, email, phone, address, state, zipcode, city,
-                            quantity: qty, envio, amount: total, token: token.id
+                            quantity: qty, envio, amount: total, token: result.token.id
                         })
                     }).then(r => r.json()).then(d => {
-                        alert('✅ ¡Compra procesada!\n\nTotal: $' + total + ' MXN\n\nRecibiras confirmación por WhatsApp.');
-                        cerrarCheckout();
-                        document.getElementById('paymentForm').reset();
+                        window.location.href = `/gracias?quantity=${qty}&total=${total}&phone=${encodeURIComponent(phone)}`;
                     }).catch(e => alert('Error: ' + e));
-                },
-                error: function(err) {
-                    alert('Error de tarjeta: ' + err.message);
                 }
             });
         }
@@ -525,7 +539,6 @@
             if (e.target === this) cerrarCheckout();
         });
 
-        // Actualizar total cuando cambia cantidad
         document.getElementById('quantity').addEventListener('change', function() {
             const checkoutModal = document.getElementById('checkoutModal');
             if (checkoutModal.classList.contains('active')) {
