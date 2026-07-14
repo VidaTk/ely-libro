@@ -1,6 +1,6 @@
 const stripe = require('stripe')('sk_test_51Tt4jyCi7Y03eRqbeTg1dhFVeJcEsfU4De2vNQDGbnzblcxFSvFZKLDlZXzPyxLoJCV2gmF5X13ovlCxPURkzLvQ00KSfS5sNU');
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwm8RVwqdI3zDDGi_FGS2R5jr2tCLIF6STOslsqDm4b50C_m3xvkMNtpKz4Ot29rJrn/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypNx8xnd8M24ZbkZuxaEQ0oWwJP1x7cojhANBr4Vk40yaCEoueg2GijJfPERUFlViD/exec';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
