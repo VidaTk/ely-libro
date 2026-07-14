@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     try {
       const { name, email, phone, address, city, zipcode, state, quantity, total, envio } = req.body;
 
-      // GUARDAR EN GOOGLE SHEET PRIMERO
+      // GUARDAR EN GOOGLE SHEET COMO "PENDIENTE - ESPERANDO PAGO"
       try {
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -25,10 +25,12 @@ export default async function handler(req, res) {
             quantity,
             envio,
             amount: total
+            // NO incluimos 'status' aquí, el script lo pone como "Pendiente - Esperando pago"
           })
         });
+        console.log('Pedido registrado en Google Sheet para:', email);
       } catch (sheetError) {
-        console.log('Google Sheet error (continuando):', sheetError.message);
+        console.log('Google Sheet error:', sheetError.message);
       }
 
       // CREAR CHECKOUT SESSION EN STRIPE
@@ -44,7 +46,7 @@ export default async function handler(req, res) {
                 description: 'Libro de Ely González',
                 images: ['https://libro.elygonz.com/portada.jpeg'],
               },
-              unit_amount: total * 100, // Stripe usa centavos
+              unit_amount: total * 100,
             },
             quantity: 1,
           },
