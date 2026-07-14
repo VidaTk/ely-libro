@@ -1238,11 +1238,112 @@
         }
 
         function abrirCheckout() {
-            const qty = document.getElementById('quantity').value;
-            document.getElementById('quantity').value = qty;
-            actualizarTotalCheckout();
-            document.getElementById('checkoutModal').classList.add('active');
+    const qty = document.getElementById('quantity').value;
+    document.getElementById('quantity').value = qty;
+    actualizarTotalCheckout();
+    document.getElementById('checkoutModal').classList.add('active');
+    
+    // Cargar Brick de MercadoPago
+    setTimeout(() => {
+        const MERCADOPAGO_PUBLIC_KEY = "APP_USR-f8451ce8-7775-4dac-bcdc-b997292dc8b4";
+        
+        if (MERCADOPAGO_PUBLIC_KEY) {
+            const containerBrick = document.getElementById('mercadopagoCheckout');
+            
+            // Limpiar si ya existe
+            if (containerBrick.innerHTML.length > 0) {
+                containerBrick.innerHTML = '';
+            }
+            
+            const mp = new MercadoPago(MERCADOPAGO_PUBLIC_KEY, { locale: 'es-MX' });
+            const bricksBuilder = mp.bricks();
+            
+            const total = parseInt(document.getElementById('modalTotal').textContent);
+            
+            bricksBuilder.create("payment", {
+                initialization: {
+                    amount: total,
+                    payer: {
+                        email: document.getElementById('email').value || undefined
+                    }
+                },
+                customization: {
+                    visual: {
+                        theme: "default",
+                        style: {
+                            customVariables: {
+                                baseUrl: "https://checkout.mercadopago.com"
+                            }
+                        }
+                    },
+                    paymentMethods: {
+                        maxInstallments: 12,
+                        creditCard: "all",
+                        debitCard: "all"
+                    }
+                },
+                callbacks: {
+                    onReady: () => {
+                        console.log('✓ Brick de MercadoPago listo');
+                    },
+                    onSubmit: async (formData) => {
+                        console.log('Pago procesado:', formData);
+                        
+                        // Enviar datos de compra a Google Sheet
+                        const state = document.getElementById('stateHidden').value;
+                        const envio = calcularEnvio(state);
+ 
+                        const datos = {
+                            name: document.getElementById('name').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value,
+                            address: document.getElementById('address').value,
+                            state: state,
+                            zipcode: document.getElementById('zipcode').value,
+                            city: document.getElementById('city').value,
+                            quantity: document.getElementById('quantity').value,
+                            envio: envio
+                        };
+                        
+                        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEnhcIMEi8yKBIlPrwvtvCYG534DkFdlIgjALtkBCdAKvKNfA5WUZUttaB2BjzMUZH/exec";
+ 
+                        try {
+                            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                                method: 'POST',
+                                body: JSON.stringify(datos)
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (result.success) {
+                                alert('✅ ¡Compra confirmada!\n\nRecibiras confirmación por WhatsApp en breve.');
+                                cerrarCheckout();
+                                document.getElementById('paymentForm').reset();
+                            } else {
+                                alert('Error registrando compra: ' + result.message);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('Compra registrada pero hubo un error al confirmar.');
+                        }
+                    },
+                    onError: (error) => {
+                        console.error('Error en pago:', error);
+                        alert('⚠️ Error en el pago: ' + error.message);
+                    },
+                    onFetching: (resource) => {
+                        console.log('Cargando:', resource);
+                    }
+                }
+            }).then(() => {
+                console.log('✓ Brick cargado exitosamente');
+            }).catch((error) => {
+                console.error('Error cargando Brick:', error);
+                alert('Error al cargar MercadoPago. Por favor recarga la página.');
+            });
         }
+    }, 300);
+}
 
         function cerrarCheckout() {
             document.getElementById('checkoutModal').classList.remove('active');
